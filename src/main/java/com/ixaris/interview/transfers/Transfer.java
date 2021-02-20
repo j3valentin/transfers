@@ -10,18 +10,18 @@ import java.util.Date;
 @Data
 public class Transfer {
     @CsvBindByPosition(position = 0)
-    BigDecimal sourceAcct;
+    private Long sourceAcct;
 
     @CsvBindByPosition(position = 1)
-    BigDecimal destinationAcct;
+    private Long destinationAcct;
 
     @CsvBindByPosition(position = 2)
-    BigDecimal amount;
+    private BigDecimal amount;
 
     @CsvBindByPosition(position = 3)
     @CsvDate("dd/MM/yyyy")
-    Date date;
+    private Date date;
 
     @CsvBindByPosition(position = 4)
-    int transferId;
+    private int transferId;
 }
