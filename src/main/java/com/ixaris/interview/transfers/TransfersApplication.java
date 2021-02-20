@@ -1,14 +1,17 @@
 package com.ixaris.interview.transfers;
 
+import com.opencsv.bean.CsvToBeanBuilder;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.util.ResourceUtils;
 
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.util.List;
 
 /**
  * <p>
@@ -30,9 +33,18 @@ public class TransfersApplication implements CommandLineRunner {
 
 	@Override
 	public void run(final String... args) {
-		// Below is some sample code to get you started. Good luck :)
-
-		// final URL file = getClass().getClassLoader().getResource("transfers.txt");
-		// Files.readAllLines(Path.of(file.toURI())).forEach(log::info);
+		final URL url = getClass().getClassLoader().getResource("transfers.txt");
+		try (FileReader fileReader = new FileReader(new File(url.toURI())))  {
+			List<Transfer> transfers = new CsvToBeanBuilder(fileReader)
+					.withSkipLines(3)
+					.withType(Transfer.class)
+					.build()
+					.parse();
+			transfers.stream().forEach(System.out::println);
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		}
 	}
 }
