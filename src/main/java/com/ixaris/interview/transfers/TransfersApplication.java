@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -39,9 +40,7 @@ public class TransfersApplication implements CommandLineRunner {
             Map<Long, Account> accounts = getAccounts(transfers);
 
             System.out.println("#Balances");
-            for (Map.Entry<Long, Account> entry : accounts.entrySet()) {
-                System.out.println(entry.getKey() + " - " + entry.getValue().getBalance());
-            }
+            accounts.values().stream().map(Account::toString).forEach(System.out::println);
 
             System.out.println("#Bank Account with highest balance");
             Account accountHighestBalance = getAccountHighestBalance(accounts);
@@ -65,21 +64,7 @@ public class TransfersApplication implements CommandLineRunner {
                 .parse();
     }
 
-    private Account getAccountHighestBalance(Map<Long, Account> accounts) {
-        return getAccountHighest(accounts, Comparator.comparing(Account::getBalance));
-    }
-
-    private Account getAccountFrequentlyUsedSource(Map<Long, Account> accounts) {
-        return getAccountHighest(accounts, Comparator.comparing(Account::getUseAsSourceCount));
-    }
-
-    private Account getAccountHighest(Map<Long, Account> accounts, Comparator<Account> comparing) {
-        return accounts.values().stream()
-                .max(comparing)
-                .orElseThrow(NoSuchElementException::new);
-    }
-
-    private Map<Long, Account> getAccounts(List<Transfer> transfers) {
+    public static Map<Long, Account> getAccounts(List<Transfer> transfers) {
         Map<Long, Account> accounts = new HashMap<>();
         for (Transfer transfer : transfers) {
             if (transfer.getSourceAcct() != 0) {
@@ -102,5 +87,19 @@ public class TransfersApplication implements CommandLineRunner {
             accounts.put(account.getNumber(), account);
         }
         return accounts;
+    }
+
+    public static Account getAccountHighestBalance(Map<Long, Account> accounts) {
+        return getAccountHighest(accounts, Comparator.comparing(Account::getBalance));
+    }
+
+    public static Account getAccountFrequentlyUsedSource(Map<Long, Account> accounts) {
+        return getAccountHighest(accounts, Comparator.comparing(Account::getUseAsSourceCount));
+    }
+
+    public static Account getAccountHighest(Map<Long, Account> accounts, Comparator<Account> comparing) {
+        return accounts.values().stream()
+                .max(comparing)
+                .orElseThrow(NoSuchElementException::new);
     }
 }

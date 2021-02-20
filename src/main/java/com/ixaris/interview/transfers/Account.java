@@ -13,7 +13,7 @@ public class Account {
     private BigDecimal balance;
     private int useAsSourceCount;
 
-    public void Account(Long number, BigDecimal initialBalance) {
+    public void Account(final Long number, final BigDecimal initialBalance) {
         this.number = number;
         balance = initialBalance;
         useAsSourceCount = 0;
@@ -26,5 +26,9 @@ public class Account {
     public void subtractAmount(BigDecimal amount) {
         balance = balance.subtract(amount);
         useAsSourceCount++;
+    }
+
+    public String toString() {
+        return number + " - " + balance;
     }
 }
