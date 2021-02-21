@@ -16,7 +16,7 @@ class TransfersApplicationTests {
     void contextLoads() {
     }
 
-    private Map<Long, Account> getAccounts() {
+    private Collection<Account> getAccounts() {
         List<Transfer> transfers = new ArrayList<>(Arrays.asList(
                 new Transfer(0l, 112233l, new BigDecimal(60.00)),
                 new Transfer(0l, 223344l, new BigDecimal(25.03)),
@@ -30,20 +30,20 @@ class TransfersApplicationTests {
 
     @Test
     public void givenTransferList_thenObtainAccounts() {
-        Map<Long, Account> accountsFromTransfers = getAccounts();
+        Collection<Account> accountsFromTransfers = getAccounts();
 
-        Map<Long, Account> accounts = new HashMap<>() {{
+        Collection<Account> accounts = new HashMap<Long, Account>() {{
             put(112233l, new Account(112233l, new BigDecimal(36.77)));
             put(223344l, new Account(223344l, new BigDecimal(30.12)));
             put(334455l, new Account(334455l, new BigDecimal(85.81)));
-        }};
+        }}.values();
 
         assertThat(accountsFromTransfers.size(), is(accounts.size()));
     }
 
     @Test
     public void givenAccounts_thenObtainAccountHighestBalance() {
-        Map<Long, Account> accounts = getAccounts();
+        Collection<Account> accounts = getAccounts();
 
         Account accountHighestBalance = TransfersApplication.getAccountHighestBalance(accounts);
 
@@ -52,7 +52,7 @@ class TransfersApplicationTests {
 
     @Test
     public void givenAccounts_thenObtainAccountFrequentlyUsedSource() {
-        Map<Long, Account> accounts = getAccounts();
+        Collection<Account> accounts = getAccounts();
 
         Account accountHighestBalance = TransfersApplication.getAccountFrequentlyUsedSource(accounts);
 
