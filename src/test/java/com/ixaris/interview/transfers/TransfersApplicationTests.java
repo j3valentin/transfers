@@ -47,7 +47,7 @@ class TransfersApplicationTests {
 
         Account accountHighestBalance = TransfersApplication.getAccountHighestBalance(accounts);
 
-        assertThat(accountHighestBalance.getBalance(), is(new BigDecimal(334455)));
+        assertThat(accountHighestBalance.getNumber(), is(334455l));
     }
 
     @Test
