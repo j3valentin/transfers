@@ -27,18 +27,4 @@ public class TransferRestController {
         account.addAmount(transfer.getAmount());
         accountRepository.save(account);
     }
-
-//    @PersistenceContext
-//    EntityManager entityManager;
-//
-//    @PostMapping
-//    void transfer(@RequestBody Transfer transfer) {
-//        entityManager.flush();
-//        entityManager.clear();
-//        entityManager.getTransaction().begin();
-//        Query query = entityManager.createQuery("UPDATE Account a SET a.amount = a.amount + 1 WHERE number = 2");
-//        query.executeUpdate();
-//        entityManager.getTransaction().commit();
-//        entityManager.close();
-//    }
 }
